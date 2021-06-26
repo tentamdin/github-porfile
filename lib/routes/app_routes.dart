@@ -19,6 +19,7 @@ class AppRoutes {
     }
   }
 
+
   static _buildRoute(Widget widget, RouteSettings settings) {
     return MaterialPageRoute(builder: (context) => widget, settings: settings);
   }

@@ -8,7 +8,6 @@ class UserDetails extends StatelessWidget {
   Widget build(BuildContext context) {
     final userInfo = context.watch<UserProvider>().userModel;
     final List<RepoModel> repoInfo = context.watch<UserProvider>().repos;
-
     return Scaffold(
       body: SafeArea(
           child: Padding(
@@ -125,7 +124,7 @@ class UserDetails extends StatelessWidget {
                 mainAxisSpacing: 10,
                 children: repoInfo.map((repo) {
                   return Container(
-                    padding: EdgeInsets.all(16),
+                    padding: EdgeInsets.all(25),
                     decoration: BoxDecoration(
                       border: Border.all(
                         color: Colors.grey,
@@ -147,12 +146,11 @@ class UserDetails extends StatelessWidget {
                             ),
                             Text(
                               repo.name,
+                              overflow: TextOverflow.ellipsis,
                               style: TextStyle(
                                 fontSize: 16,
                                 color: Colors.white,
                               ),
-                              overflow: TextOverflow.ellipsis,
-                              maxLines: 1,
                             ),
                           ],
                         ),
@@ -165,15 +163,42 @@ class UserDetails extends StatelessWidget {
                           ),
                         ),
                         Row(
-                          children: [ 
-                          Row(
-                            children: [
-                           
-                            ],
-
-                          ) 
-
-                        ],)
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Row(
+                              children: [
+                                RepoMetaData(
+                                  iconWidget: Container(
+                                    height: 15,
+                                    width: 15,
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: Colors.red,
+                                    ),
+                                  ),
+                                  label: repo.language != null
+                                      ? repo.language
+                                      : "",
+                                ),
+                                RepoMetaData(
+                                  iconWidget: Icon(
+                                    Icons.star,
+                                  ),
+                                  label: repo.starCount.toString(),
+                                ),
+                                RepoMetaData(
+                                  iconWidget: Icon(
+                                    Icons.share,
+                                  ),
+                                  label: repo.forks.toString(),
+                                ),
+                              ],
+                            ),
+                            RepoMetaData(
+                                iconWidget: Text(repo.size.toString()),
+                                label: "KB"),
+                          ],
+                        )
                       ],
                     ),
                   );
@@ -183,6 +208,29 @@ class UserDetails extends StatelessWidget {
           ],
         ),
       )),
+    );
+  }
+}
+
+class RepoMetaData extends StatelessWidget {
+  const RepoMetaData({Key key, this.iconWidget, this.label}) : super(key: key);
+
+  final Widget iconWidget;
+  final String label;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        iconWidget,
+        SizedBox(
+          width: 5,
+        ),
+        Text(label),
+        SizedBox(
+          width: 15,
+        ),
+      ],
     );
   }
 }

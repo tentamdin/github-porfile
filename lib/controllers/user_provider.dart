@@ -40,7 +40,10 @@ class UserProvider extends ChangeNotifier {
     setLoading(true);
     try {
       final List<RepoModel> response = await _githubApi.getRepos(username);
-      _repos = response;
+      List<RepoModel> repoNotForked =
+          response.where((element) => !element.isForked).toList();
+      repoNotForked.sort((a, b) => b.starCount.compareTo(a.starCount));
+      _repos = repoNotForked;
       setLoading(false);
       Navigator.of(context).pushNamed(AppRoutes.userDetails);
     } catch (e) {

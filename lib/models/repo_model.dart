@@ -3,6 +3,7 @@ class RepoModel {
   int starCount;
   int forks;
   int size;
+  bool isForked;
 
   RepoModel({
     this.name,
@@ -12,19 +13,20 @@ class RepoModel {
     this.forks,
     this.starCount,
     this.size,
+    this.isForked,
   });
 
   static RepoModel fromMap(Map<String, dynamic> map) {
     if (map == null) return null;
     return RepoModel(
-      name: map['name'],
-      repoLink: map['html_url'],
-      description: map["description"],
-      language: map["language"],
-      forks: map["forks"],
-      starCount: map["stargazers_count"],
-      size: map["size"],
-    );
+        name: map['name'],
+        repoLink: map['html_url'],
+        description: map["description"],
+        language: map["language"],
+        forks: map["forks"],
+        starCount: map["stargazers_count"],
+        size: map["size"],
+        isForked: map["fork"]);
   }
 
   RepoModel.fromJson(Map<String, dynamic> json) {
@@ -35,6 +37,7 @@ class RepoModel {
     forks = json["forks"];
     starCount = json["stargazers_count"];
     size = json["size"];
+    isForked = json["fork"];
   }
 
   Map<String, dynamic> toJson() {
