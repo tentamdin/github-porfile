@@ -44,6 +44,9 @@ class HomeScreen extends StatelessWidget {
                           await context
                               .read<UserProvider>()
                               .getUserRepos(userNameController.text, context);
+                          await context
+                              .read<UserProvider>()
+                              .getRateData(context);
                         },
                         child: Text("Get Git Profile"),
                       ),
