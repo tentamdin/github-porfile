@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:git_profile/controllers/user_provider.dart';
 import 'package:git_profile/models/repo_model.dart';
+import 'package:git_profile/routes/app_routes.dart';
 import 'package:provider/provider.dart';
 
 class UserDetails extends StatelessWidget {
@@ -120,86 +121,101 @@ class UserDetails extends StatelessWidget {
             Expanded(
               child: GridView.count(
                 crossAxisCount: 1,
+                childAspectRatio: 1 / 0.5,
                 crossAxisSpacing: 10,
                 mainAxisSpacing: 10,
                 children: repoInfo.map((repo) {
-                  return Container(
-                    padding: EdgeInsets.all(25),
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        color: Colors.grey,
+                  return GestureDetector(
+                    onTap: () {
+                      Navigator.pushNamed(
+                        context,
+                        AppRoutes.repoWebview,
+                        arguments: repo.repoLink,
+                      );
+                    },
+                    child: Container(
+                      padding: EdgeInsets.all(20),
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: Colors.grey,
+                        ),
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(12.0),
+                        ),
                       ),
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(12.0),
-                      ),
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Row(
-                          children: [
-                            Icon(
-                              Icons.book_outlined,
-                            ),
-                            SizedBox(
-                              width: 10,
-                            ),
-                            Text(
-                              repo.name,
-                              overflow: TextOverflow.ellipsis,
-                              style: TextStyle(
-                                fontSize: 16,
-                                color: Colors.white,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Row(
+                            children: [
+                              Icon(
+                                Icons.book_outlined,
                               ),
+                              SizedBox(
+                                width: 10,
+                              ),
+                              Expanded(
+                                child: Text(
+                                  repo.name,
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                                // vertical: 20,
+                                ),
+                            child: Text(
+                              repo.description != null ? repo.description : "",
+                              maxLines: 10,
+                              overflow: TextOverflow.ellipsis,
                             ),
-                          ],
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(
-                            vertical: 20,
                           ),
-                          child: Text(
-                            repo.description != null ? repo.description : "",
-                          ),
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Row(
-                              children: [
-                                RepoMetaData(
-                                  iconWidget: Container(
-                                    height: 15,
-                                    width: 15,
-                                    decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      color: Colors.red,
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Row(
+                                children: [
+                                  RepoMetaData(
+                                    iconWidget: Container(
+                                      height: 15,
+                                      width: 15,
+                                      decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        color: Colors.red,
+                                      ),
                                     ),
+                                    label: repo.language != null
+                                        ? repo.language
+                                        : "",
                                   ),
-                                  label: repo.language != null
-                                      ? repo.language
-                                      : "",
-                                ),
-                                RepoMetaData(
-                                  iconWidget: Icon(
-                                    Icons.star,
+                                  RepoMetaData(
+                                    iconWidget: Icon(
+                                      Icons.star,
+                                    ),
+                                    label: repo.starCount.toString(),
                                   ),
-                                  label: repo.starCount.toString(),
-                                ),
-                                RepoMetaData(
-                                  iconWidget: Icon(
-                                    Icons.share,
+                                  RepoMetaData(
+                                    iconWidget: Icon(
+                                      Icons.share,
+                                    ),
+                                    label: repo.forks.toString(),
                                   ),
-                                  label: repo.forks.toString(),
-                                ),
-                              ],
-                            ),
-                            RepoMetaData(
-                                iconWidget: Text(repo.size.toString()),
-                                label: "KB"),
-                          ],
-                        )
-                      ],
+                                ],
+                              ),
+                              RepoMetaData(
+                                  iconWidget: Text(repo.size.toString()),
+                                  label: "KB"),
+                            ],
+                          )
+                        ],
+                      ),
                     ),
                   );
                 }).toList(),
