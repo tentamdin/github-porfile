@@ -8,6 +8,7 @@ class UserDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final userInfo = context.watch<UserProvider>().userModel;
+    final rateInfo = context.watch<UserProvider>().rate;
     final List<RepoModel> repoInfo = context.watch<UserProvider>().repos;
     return Scaffold(
       body: SafeArea(
@@ -22,12 +23,18 @@ class UserDetails extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text("60 / 60 \nRequest Left".toUpperCase()),
+                Text(rateInfo.remaining != null
+                    ? "${rateInfo.remaining} / 60\nRequest Left".toUpperCase()
+                    : "0 / 60\nRequest Left".toUpperCase()),
                 IconButton(
                   icon: Icon(
                     Icons.person,
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.pushNamed(context, AppRoutes.repoWebview,
+                        arguments:
+                            "https://github.com/tentamdin/github-porfile");
+                  },
                 )
               ],
             ),
@@ -37,10 +44,16 @@ class UserDetails extends StatelessWidget {
               leading: CircleAvatar(
                 backgroundImage: NetworkImage(userInfo.avataUrl),
               ),
-              title: Text(
-                userInfo.name,
-                style:
-                    TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+              title: GestureDetector(
+                onTap: () {
+                  Navigator.pushNamed(context, AppRoutes.repoWebview,
+                      arguments: "https://github.com/tentamdin");
+                },
+                child: Text(
+                  userInfo.name,
+                  style: TextStyle(
+                      color: Colors.blueAccent, fontWeight: FontWeight.bold),
+                ),
               ),
               subtitle: RichText(
                 text: TextSpan(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:git_profile/models/rate_model.dart';
 import 'package:git_profile/models/repo_model.dart';
 import 'package:git_profile/models/user_model.dart';
 import 'package:git_profile/routes/app_routes.dart';
@@ -17,6 +18,9 @@ class UserProvider extends ChangeNotifier {
   List<RepoModel> _repos;
   List<RepoModel> get repos => _repos;
 
+  RateModel _rateModel;
+  RateModel get rate => _rateModel;
+
   void setLoading(bool value) {
     isloading = value;
     notifyListeners();
@@ -28,7 +32,19 @@ class UserProvider extends ChangeNotifier {
       final UserModel response = await _githubApi.getUserInfo(username);
       _userModel = response;
       setLoading(false);
-      print("Username : ${_userModel.name}");
+    } catch (e) {
+      final message = DioExceptions.fromDioError(e).message.toString();
+      showSnackBar(context, "Error", message);
+      setLoading(false);
+    }
+  }
+
+  Future<void> getRateData(BuildContext context) async {
+    setLoading(true);
+    try {
+      final RateModel response = await _githubApi.getRateLimit();
+      _rateModel = response;
+      setLoading(false);
     } catch (e) {
       final message = DioExceptions.fromDioError(e).message.toString();
       showSnackBar(context, "Error", message);

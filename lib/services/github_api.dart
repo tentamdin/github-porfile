@@ -1,3 +1,4 @@
+import 'package:git_profile/models/rate_model.dart';
 import 'package:git_profile/models/repo_model.dart';
 import 'package:git_profile/models/user_model.dart';
 import 'package:git_profile/services/dio_client.dart';
@@ -16,14 +17,20 @@ class GithubApi {
     }
   }
 
-  // Huzaifaahmed20
-
   Future<List<RepoModel>> getRepos(String username) async {
     try {
       final List response = await _client
           .get('${Endpoints.userParam}/$username/${Endpoints.repoParam}');
-      print("Response repos list : $response");
       return response.map((item) => RepoModel.fromJson(item)).toList();
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  Future<RateModel> getRateLimit() async {
+    try {
+      final response = await _client.get('${Endpoints.rateLimit}');
+      return RateModel.fromJson(response["rate"]);
     } catch (e) {
       throw e;
     }

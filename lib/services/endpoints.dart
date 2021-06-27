@@ -11,6 +11,6 @@ class Endpoints {
   static const int connectionTimeout = 10000;
 
   static const String userParam = "/users";
-
   static const String repoParam = "/repos";
+  static const String rateLimit = "/rate_limit";
 }
