@@ -47,7 +47,7 @@ class UserDetails extends StatelessWidget {
               title: GestureDetector(
                 onTap: () {
                   Navigator.pushNamed(context, AppRoutes.repoWebview,
-                      arguments: "https://github.com/tentamdin");
+                      arguments: userInfo.userLink);
                 },
                 child: Text(
                   userInfo.name,

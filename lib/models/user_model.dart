@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class UserModel {
-  String name, avataUrl, bio, userName, joinedDate;
+  String name, avataUrl, bio, userName, joinedDate, userLink;
   int followers, following, repos;
 
   UserModel({
@@ -13,6 +13,7 @@ class UserModel {
     @required this.repos,
     @required this.followers,
     @required this.following,
+    @required this.userLink,
   });
 
   UserModel.fromJson(Map<String, dynamic> json) {
@@ -24,6 +25,7 @@ class UserModel {
     repos = json["public_repos"];
     followers = json['followers'];
     following = json['following'];
+    userLink = json["html_url"];
   }
 
   Map<String, dynamic> toJson() {
@@ -36,6 +38,7 @@ class UserModel {
     data['avatar_url'] = this.avataUrl;
     data['followers'] = this.followers;
     data['following'] = this.following;
+    data["html_url"] = this.userLink;
     return data;
   }
 }
