@@ -3,6 +3,7 @@ import 'package:git_profile/controllers/user_provider.dart';
 import 'package:git_profile/models/repo_model.dart';
 import 'package:git_profile/routes/app_routes.dart';
 import 'package:provider/provider.dart';
+import 'package:intl/intl.dart';
 
 class UserDetails extends StatelessWidget {
   @override
@@ -10,6 +11,8 @@ class UserDetails extends StatelessWidget {
     final userInfo = context.watch<UserProvider>().userModel;
     final rateInfo = context.watch<UserProvider>().rate;
     final List<RepoModel> repoInfo = context.watch<UserProvider>().repos;
+    var joinedDate =
+        DateFormat.yMMMd().format(DateTime.parse(userInfo.joinedDate));
     return Scaffold(
       body: SafeArea(
           child: Padding(
@@ -23,9 +26,11 @@ class UserDetails extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(rateInfo.remaining != null
-                    ? "${rateInfo.remaining} / 60\nRequest Left".toUpperCase()
-                    : "0 / 60\nRequest Left".toUpperCase()),
+                Text(
+                  rateInfo != null && rateInfo.remaining != null
+                      ? "${rateInfo.remaining} / 60\nRequest Left".toUpperCase()
+                      : "0 / 60\nRequest Left".toUpperCase(),
+                ),
                 IconButton(
                   icon: Icon(
                     Icons.person,
@@ -38,36 +43,52 @@ class UserDetails extends StatelessWidget {
                 )
               ],
             ),
-            ListTile(
-              contentPadding: EdgeInsets.all(0),
-              isThreeLine: true,
-              leading: CircleAvatar(
-                backgroundImage: NetworkImage(userInfo.avataUrl),
-              ),
-              title: GestureDetector(
-                onTap: () {
-                  Navigator.pushNamed(context, AppRoutes.repoWebview,
-                      arguments: userInfo.userLink);
-                },
-                child: Text(
-                  userInfo.name,
-                  style: TextStyle(
-                      color: Colors.blueAccent, fontWeight: FontWeight.bold),
-                ),
-              ),
-              subtitle: RichText(
-                text: TextSpan(
-                  text: "@${userInfo.userName}\n",
-                  style: TextStyle(
-                      color: Colors.white, fontWeight: FontWeight.bold),
-                  children: [
-                    TextSpan(
-                      text: userInfo.bio,
-                      style: TextStyle(
-                          color: Colors.white, fontWeight: FontWeight.w500),
+            AspectRatio(
+              aspectRatio: 1 / 0.3,
+              child: Row(
+                children: [
+                  CircleAvatar(
+                    backgroundImage: NetworkImage(userInfo.avataUrl),
+                    radius: 40,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(
+                      top: 20,
+                      left: 20,
                     ),
-                  ],
-                ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          userInfo.name,
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.pushNamed(context, AppRoutes.repoWebview,
+                                arguments: userInfo.userLink);
+                          },
+                          child: Text(
+                            "@${userInfo.userName}\n",
+                            style: TextStyle(
+                              color: Colors.tealAccent,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                        Text(
+                          userInfo.bio,
+                          maxLines: 2,
+                          style: TextStyle(
+                            fontWeight: FontWeight.normal,
+                          ),
+                        ),
+                      ],
+                    ),
+                  )
+                ],
               ),
             ),
             Row(
@@ -75,7 +96,10 @@ class UserDetails extends StatelessWidget {
                 Icon(
                   Icons.calendar_today,
                 ),
-                Text(userInfo.joinedDate),
+                SizedBox(
+                  width: 10,
+                ),
+                Text("Joined $joinedDate"),
               ],
             ),
             SizedBox(height: 20),
@@ -97,6 +121,7 @@ class UserDetails extends StatelessWidget {
                 )
               ],
             ),
+            SizedBox(height: 20),
             Padding(
               padding: const EdgeInsets.symmetric(
                 horizontal: 5,
