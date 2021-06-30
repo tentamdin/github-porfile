@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:git_profile/controllers/user_provider.dart';
 import 'package:git_profile/models/repo_model.dart';
 import 'package:git_profile/routes/app_routes.dart';
+import 'package:git_profile/widgets/custom_text.dart';
+import 'package:git_profile/widgets/repo_metadata.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 
@@ -59,31 +61,27 @@ class UserDetails extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          userInfo.name,
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                          ),
+                        CustomText(
+                          label: userInfo.name,
+                          fontWeight: FontWeight.bold,
+                          maxLines: 1,
+                          fontSize: 16,
                         ),
                         GestureDetector(
                           onTap: () {
                             Navigator.pushNamed(context, AppRoutes.repoWebview,
                                 arguments: userInfo.userLink);
                           },
-                          child: Text(
-                            "@${userInfo.userName}\n",
-                            style: TextStyle(
-                              color: Colors.tealAccent,
-                              fontWeight: FontWeight.bold,
-                            ),
+                          child: CustomText(
+                            label: userInfo.userName,
+                            color: Theme.of(context).accentColor,
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
-                        Text(
-                          userInfo.bio,
+                        CustomText(
+                          label: "${userInfo.bio}",
                           maxLines: 2,
-                          style: TextStyle(
-                            fontWeight: FontWeight.normal,
-                          ),
+                          fontWeight: FontWeight.normal,
                         ),
                       ],
                     ),
@@ -105,19 +103,16 @@ class UserDetails extends StatelessWidget {
             SizedBox(height: 20),
             Row(
               children: [
-                Text(
-                  '${userInfo.repos} Repositories',
-                  style: TextStyle(color: Colors.white),
+                CustomText(
+                  label: "${userInfo.repos} Repositories",
                 ),
                 const SizedBox(width: 20),
-                Text(
-                  '${userInfo.followers} Followers',
-                  style: TextStyle(color: Colors.white),
+                CustomText(
+                  label: '${userInfo.followers} Followers',
                 ),
                 const SizedBox(width: 20),
-                Text(
-                  '${userInfo.followers}  following',
-                  style: TextStyle(color: Colors.white),
+                CustomText(
+                  label: '${userInfo.followers}  following',
                 )
               ],
             ),
@@ -129,29 +124,23 @@ class UserDetails extends StatelessWidget {
               ),
               child: Row(
                 children: [
-                  Text(
-                    "Top Repos",
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
+                  CustomText(
+                    label: "Top Repos",
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
                   ),
                   SizedBox(width: 10),
-                  Text(
-                    "by",
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.normal,
-                    ),
+                  CustomText(
+                    label: "by",
+                    fontSize: 18,
+                    fontWeight: FontWeight.normal,
                   ),
                   SizedBox(width: 10),
-                  Text(
-                    "Stars",
-                    style: TextStyle(
-                      color: Colors.tealAccent,
-                      fontSize: 18,
-                      fontWeight: FontWeight.normal,
-                    ),
+                  CustomText(
+                    label: "Stars",
+                    color: Theme.of(context).accentColor,
+                    fontSize: 18,
+                    fontWeight: FontWeight.normal,
                   ),
                 ],
               ),
@@ -193,27 +182,20 @@ class UserDetails extends StatelessWidget {
                                 width: 10,
                               ),
                               Expanded(
-                                child: Text(
-                                  repo.name,
+                                child: CustomText(
+                                  label: repo.name,
                                   maxLines: 2,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    color: Colors.white,
-                                  ),
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
                                 ),
                               ),
                             ],
                           ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(
-                                // vertical: 20,
-                                ),
-                            child: Text(
-                              repo.description != null ? repo.description : "",
-                              maxLines: 10,
-                              overflow: TextOverflow.ellipsis,
-                            ),
+                          CustomText(
+                            label: repo.description != null
+                                ? repo.description
+                                : "",
+                            maxLines: 10,
                           ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -262,29 +244,6 @@ class UserDetails extends StatelessWidget {
           ],
         ),
       )),
-    );
-  }
-}
-
-class RepoMetaData extends StatelessWidget {
-  const RepoMetaData({Key key, this.iconWidget, this.label}) : super(key: key);
-
-  final Widget iconWidget;
-  final String label;
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        iconWidget,
-        SizedBox(
-          width: 5,
-        ),
-        Text(label),
-        SizedBox(
-          width: 15,
-        ),
-      ],
     );
   }
 }

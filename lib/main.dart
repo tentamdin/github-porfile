@@ -16,9 +16,21 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'Flutter Demo',
         debugShowCheckedModeBanner: false,
-        theme: ThemeData.dark().copyWith(
-          scaffoldBackgroundColor: Colors.black,
+        theme: ThemeData.light().copyWith(
+          primaryColor: Colors.black,
+          accentColor: Colors.teal,
+          snackBarTheme: SnackBarThemeData(
+            backgroundColor: Colors.black,
+          ),
         ),
+        darkTheme: ThemeData.dark().copyWith(
+          scaffoldBackgroundColor: Colors.black,
+          accentColor: Colors.tealAccent,
+          snackBarTheme: SnackBarThemeData(
+            backgroundColor: Colors.white,
+          ),
+        ),
+        themeMode: ThemeMode.system,
         initialRoute: AppRoutes.home,
         onGenerateRoute: AppRoutes.onGenerateRoute,
       ),

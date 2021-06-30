@@ -27,9 +27,9 @@ class HomeScreen extends StatelessWidget {
                 ),
                 TextField(
                   controller: userNameController,
-                  style: TextStyle(
-                    color: Colors.white,
-                  ),
+                  textAlign: TextAlign.center,
+                  decoration:
+                      InputDecoration(hintText: "Enter your github username"),
                 ),
                 SizedBox(
                   height: 40,
