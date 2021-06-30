@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 
 void showSnackBar(BuildContext context, String title, String message) {
   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-    backgroundColor: message == "Error" ? Colors.red.shade400 : Colors.white,
+    backgroundColor: Theme.of(context).snackBarTheme.backgroundColor,
     content: Row(
       children: [
-        Text("$title:"),
+        Text(
+          "$title:",
+        ),
         SizedBox(
           width: 10,
         ),
