@@ -46,8 +46,8 @@ class UserProvider extends ChangeNotifier {
       _rateModel = response;
       setLoading(false);
     } catch (e) {
-      final message = DioExceptions.fromDioError(e).message.toString();
-      showSnackBar(context, "Error", message);
+      // final message = DioExceptions.fromDioError(e).message.toString();
+      // showSnackBar(context, "Error", message);
       setLoading(false);
     }
   }
@@ -63,8 +63,8 @@ class UserProvider extends ChangeNotifier {
       setLoading(false);
       Navigator.of(context).pushNamed(AppRoutes.userDetails);
     } catch (e) {
-      final message = DioExceptions.fromDioError(e).message.toString();
-      showSnackBar(context, "Error", message);
+      // final message = DioExceptions.fromDioError(e).message.toString();
+      // showSnackBar(context, "Error", message);
       setLoading(false);
     }
   }

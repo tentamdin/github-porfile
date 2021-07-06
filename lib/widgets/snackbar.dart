@@ -11,7 +11,12 @@ void showSnackBar(BuildContext context, String title, String message) {
         SizedBox(
           width: 10,
         ),
-        Text(message),
+        Expanded(
+          child: Text(
+            message,
+            maxLines: 2,
+          ),
+        ),
       ],
     ),
     action: SnackBarAction(

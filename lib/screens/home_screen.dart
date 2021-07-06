@@ -38,15 +38,18 @@ class HomeScreen extends StatelessWidget {
                     ? CircularProgressIndicator()
                     : ElevatedButton(
                         onPressed: () async {
-                          await context
-                              .read<UserProvider>()
-                              .getUserData(userNameController.text, context);
-                          await context
-                              .read<UserProvider>()
-                              .getUserRepos(userNameController.text, context);
-                          await context
-                              .read<UserProvider>()
-                              .getRateData(context);
+                          if (userNameController.text.isNotEmpty) {
+                            print("Text : ${userNameController.text}");
+                            await context
+                                .read<UserProvider>()
+                                .getUserData(userNameController.text, context);
+                            await context
+                                .read<UserProvider>()
+                                .getUserRepos(userNameController.text, context);
+                            await context
+                                .read<UserProvider>()
+                                .getRateData(context);
+                          }
                         },
                         child: Text("Get Git Profile"),
                       ),
